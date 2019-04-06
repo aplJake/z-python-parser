@@ -11,11 +11,16 @@ class PageParser(AbstractParser):
     def parse_soup(self):
         col_main = self.soup.find("div", {"class": "col-main"})
         wrapper = col_main.find(id="wrap")
-        tests = wrapper.select(".task-card .q-test")
+        task_card = wrapper.select(".task-card")
 
         # get question and tasks
-        for test in tests:
+        for card in task_card:
+            test_number = card.select_one(".counter").getText()
+            # task number fix --> (Task 2 from 35)
+            test_number = test_number.replace("Завдання ", "")
+            test_number = test_number.split(' ', 1)[0]
 
+            test = card.select_one(".q-test")
             # get test question
             question_paragraph = test.select_one(".question p")
             question_text = ""
@@ -39,7 +44,7 @@ class PageParser(AbstractParser):
                 answers.append(answer_text[1:])
 
             # add data to json
-            self.page_json.add_task(question=question_text, answers_arr=answers)
+            self.page_json.add_task(test_number = test_number, question=question_text, answers_arr=answers)
 
         return self
 
