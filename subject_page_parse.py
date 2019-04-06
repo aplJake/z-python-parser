@@ -1,6 +1,3 @@
-import requests
-from bs4 import BeautifulSoup
-
 from abstract_parser import AbstractParser
 
 
