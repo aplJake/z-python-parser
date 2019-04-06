@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 
 class AbstractParser:
     def __init__(self, page_url):
+        self.WEBSITE_URL = "https://zno.osvita.ua"
         self.page_url = page_url
         self.r = requests.get(page_url)
         self.soup = BeautifulSoup(self.r.content, 'html.parser')
