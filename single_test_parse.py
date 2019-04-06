@@ -1,9 +1,11 @@
 from abstract_parser import AbstractParser
+from page_json import PageJsonify
 
 
 class PageParser(AbstractParser):
     def __init__(self, page_url):
         self.tasks_array = []
+        self.page_json = PageJsonify()
         return super().__init__(page_url)
 
     def parse_soup(self):
@@ -16,9 +18,11 @@ class PageParser(AbstractParser):
 
             # get test question
             question_paragraph = test.select_one(".question p")
+            question_text = ""
             # case when question tag is inside div --> p
             if question_paragraph:
                 question_text = question_paragraph.getText()
+
                 print(question_text)
             # case when question text is only in div tag
             else:
@@ -32,4 +36,13 @@ class PageParser(AbstractParser):
             answers_div = test.select(".answers .answer")
             for answer in answers_div:
                 answer_text = answer.getText()
-                print(answer_text[1:])
+                answers.append(answer_text[1:])
+
+            # add data to json
+            self.page_json.add_task(question=question_text, answers_arr=answers)
+
+        return self
+
+    def printJson(self):
+        print("\n" * 10)
+        print(self.page_json.json_data)

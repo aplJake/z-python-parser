@@ -13,4 +13,4 @@ if __name__ == "__main__":
     # page parsing
     test_link = z_subject_tests[0]
     page_parser = PageParser(test_link)
-    page_parser.parse_soup()
+    page_parser.parse_soup().printJson()
