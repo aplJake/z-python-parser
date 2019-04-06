@@ -2,9 +2,8 @@ from abstract_parser import AbstractParser
 
 
 class SingleSubjectParse(AbstractParser):
-    def __init__(self, page_url, website_link):
+    def __init__(self, page_url):
         self.test_urls = []
-        self.website_link = website_link
         return super().__init__(page_url)
 
     def parse_soup(self):
@@ -13,7 +12,7 @@ class SingleSubjectParse(AbstractParser):
         # getting urls from a tag  from ul-test blocks
         for row in test_blocks:
             link = row.select_one(".test-item a")["href"]
-            complete_link = self.website_link + link
+            complete_link = self.WEBSITE_URL + link
             self.test_urls.append(complete_link)
 
         return self

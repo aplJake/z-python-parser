@@ -31,6 +31,7 @@ class PageParser(AbstractParser):
         for card in task_card:
             question_type = None
             answer_type = None
+            question_image = ""
             question_text = []
             answers = []
 
@@ -74,10 +75,17 @@ class PageParser(AbstractParser):
             answer_type = 2 if len(
                 answers) > 4 else 1
 
+            # check for question image
+            image_tag = test.select_one(".question p img")
+            if image_tag:
+                question_image = self.WEBSITE_URL + image_tag["src"]
+
+
             # add data to json
             self.page_json.add_task(
                 question_type=question_type,
                 answer_type=answer_type,
+                image=question_image,
                 test_number=test_number,
                 question=question_text,
                 answers_arr=answers)
